@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <title>Mi Player Personal</title>
+    <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+    <style>
+        body { background: #111; color: white; font-family: sans-serif; text-align: center; }
+        video { width: 90%; max-width: 800px; border: 2px solid #333; margin-top: 20px; }
+        .controls { margin: 20px; }
+        button { padding: 10px 20px; cursor: pointer; background: #c00; border: none; color: white; font-weight: bold; }
+    </style>
+</head>
+<body>
+    <h2>Stream Control Center</h2>
+    <video id="video" controls></video>
+    <div class="controls" id="buttons"></div>
+
+    <script>
+        const channels = {
+            "Canal Abierto 1": "URL_AQUI",
+            "Fox Sports (Sujeto a disponibilidad)": "URL_AQUI"
+        };
+
+        const video = document.getElementById('video');
+        const buttonsContainer = document.getElementById('buttons');
+
+        Object.keys(channels).forEach(name => {
+            let btn = document.createElement('button');
+            btn.innerText = name;
+            btn.onclick = () => loadStream(channels[name]);
+            buttonsContainer.appendChild(btn);
+        });
+
+        function loadStream(url) {
+            if (Hls.isSupported()) {
+                const hls = new Hls();
+                hls.loadSource(url);
+                hls.attachMedia(video);
+                video.play();
+            }
+        }
+    </script>
+</body>
+</html>
